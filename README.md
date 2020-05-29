@@ -12,3 +12,4 @@ This repository is for the development of a command line application to automate
 ### Additional Features:
 - [ ] An initial setup to create the overall notes folder if it does not exist
 - [ ] Display all notes and subfolders in the main Notes folder
+- [ ] Change the text editor from default to user specified editor
