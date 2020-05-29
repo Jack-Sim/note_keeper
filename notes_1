@@ -1,0 +1,76 @@
+#!/usr/bin/env python3
+
+PYTHON = '.py'
+MARKDOWN = '.md'
+JAVASCRIPT = '.js'
+JAVA = '.java'
+HTML = '.html'
+CSS = '.css'
+
+
+def simple_note(name):
+    notesDir = os.path.expanduser('~/Desktop/Notes')
+    name = name + '.md'
+    filePath, searchedNotes = findFile(name, notesDir)
+    if filePath != False:
+        print('[+] The notes already exist, opening ' + name)
+        os.system('vim ' + filePath)
+    else:
+        os.chdir(notesDir + '/General_Notes')
+        fileNew = open(name, 'w')
+        fileNew.close()
+        print('[+] New notes file: ' + name + ' created')
+        os.system('vim ' + name)
+
+def findFile(name, startDir):
+    foundPaths = {startDir:{}}
+    found = False
+    try:
+        toEval = os.listdir(startDir)
+    except:
+        if name in startDir:
+            found =  True
+            return found, startDir
+        else:
+            return False, None
+
+    while len(toEval) > 0 and found == False:
+        newDir = startDir + '/' + toEval[0]
+        print(newDir)
+        toEval.pop(0)
+        found, foundPaths[startDir][newDir] = findFile(name, newDir)
+    if found == True:
+        print('[+] ' + name + ' exists, returning path to file')
+        return newDir, newDir
+    return found, foundPaths
+    
+def fileWithExtension(name, ext):
+    name = name + ext
+
+def main():
+    if len(sys.argv) == 1:
+        print("No inputs supplied, for help see -h for documentation")
+        return
+    inputs = sys.argv[1:]
+    if inputs[0] not in ['nfe', 'ne', 'n']:
+        print('Please use a valid input, for help see the documentation')
+        return
+    if inputs[0] == 'nfe':
+        print('nfe')
+        return
+    elif inputs[0] == 'ne':
+        print('ne')
+        return
+    elif inputs[0] == 'n':
+        print('n')
+        simple_note(inputs[1])
+        return
+    else:
+        print('Please enter a valid input, for help see the documentation')
+        return
+
+
+if __name__ == "__main__":
+    import sys
+    import os
+    main()
