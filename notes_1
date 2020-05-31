@@ -8,24 +8,29 @@ HTML = '.html'
 TEXT = '.txt'
 
 fileExtMapping = {
-        'py':PYTHON, '.py':PYTHON, 'python':PYTHON, '.python':PYTHON,
-        'md':MARKDOWN, '.md':MARKDOWN, 'markdown':MARKDOWN, '.markdown':MARKDOWN,
-        'js':JAVASCRIPT, '.js':JAVASCRIPT, 'javascript':JAVASCRIPT, '.javascript':JAVASCRIPT,
-        'java':JAVA, '.java':JAVA,
-        'html':HTML, '.html':HTML,
-        'txt':TEXT, '.txt':TEXT, 'text':TEXT, '.text':TEXT
+        'py': PYTHON, '.py': PYTHON,
+        'python': PYTHON, '.python': PYTHON,
+        'md': MARKDOWN, '.md': MARKDOWN,
+        'markdown': MARKDOWN, '.markdown': MARKDOWN,
+        'js': JAVASCRIPT, '.js': JAVASCRIPT,
+        'javascript': JAVASCRIPT, '.javascript': JAVASCRIPT,
+        'java': JAVA, '.java': JAVA,
+        'html': HTML, '.html': HTML,
+        'txt': TEXT, '.txt': TEXT, 'text': TEXT, '.text': TEXT
         }
+
 
 def simpleNote(name, ext='md'):
     notesDir = os.path.expanduser('~/Desktop/Notes')
     ext = fileWithExtension(ext)
-    if ext == None:
+    if ext is None:
         print('[-] Invalid file extension')
         return
     name = name + ext
     filePath, searchedNotes = findFile(name, notesDir)
-    if filePath != False:
+    if filePath:
         print('[+] The notes already exist, opening ' + name)
+        print(filePath)
         os.system('vim ' + filePath)
     else:
         os.chdir(notesDir + '/General_Notes')
@@ -34,28 +39,31 @@ def simpleNote(name, ext='md'):
         print('[+] New notes file: ' + name + ' created')
         os.system('vim ' + name)
 
+
 def findFile(name, startDir):
-    foundPaths = {startDir:{}}
+    foundPaths = {startDir: {}}
     found = False
     try:
         toEval = os.listdir(startDir)
     except:
         if name in startDir:
-            found =  True
+            found = startDir
             return found, startDir
         else:
             return False, None
 
-    while len(toEval) > 0 and found == False:
+    while len(toEval) > 0 and not found:
         newDir = startDir + '/' + toEval[0]
         print(newDir)
         toEval.pop(0)
         found, foundPaths[startDir][newDir] = findFile(name, newDir)
-    if found == True:
+    if found:
         print('[+] ' + name + ' exists, returning path to file')
-        return newDir, newDir
+        foundPaths = newDir
+        return found, newDir
     return found, foundPaths
-    
+
+
 def fileWithExtension(ext):
     ext = ext.lower()
     if ext not in fileExtMapping.keys():
@@ -67,11 +75,11 @@ def fileWithExtension(ext):
 
 def main():
     if len(sys.argv) == 1:
-        print("No inputs supplied, for help see -h for documentation")
+        print("[-] No inputs supplied, for help see -h for documentation")
         return
     inputs = sys.argv[1:]
     if inputs[0] not in ['nfe', 'ne', 'n']:
-        print('Please use a valid input, for help see the documentation')
+        print('[-] Please use a valid input, for help see the documentation')
         return
     if inputs[0] == 'nfe':
         print('nfe')
@@ -83,7 +91,7 @@ def main():
         simpleNote(inputs[1])
         return
     else:
-        print('Please enter a valid input, for help see the documentation')
+        print('[-] Please enter a valid input, for help see the documentation')
         return
 
 
