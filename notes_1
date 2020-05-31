@@ -5,12 +5,24 @@ MARKDOWN = '.md'
 JAVASCRIPT = '.js'
 JAVA = '.java'
 HTML = '.html'
-CSS = '.css'
+TEXT = '.txt'
 
+fileExtMapping = {
+        'py':PYTHON, '.py':PYTHON, 'python':PYTHON, '.python':PYTHON,
+        'md':MARKDOWN, '.md':MARKDOWN, 'markdown':MARKDOWN, '.markdown':MARKDOWN,
+        'js':JAVASCRIPT, '.js':JAVASCRIPT, 'javascript':JAVASCRIPT, '.javascript':JAVASCRIPT,
+        'java':JAVA, '.java':JAVA,
+        'html':HTML, '.html':HTML,
+        'txt':TEXT, '.txt':TEXT, 'text':TEXT, '.text':TEXT
+        }
 
-def simple_note(name):
+def simpleNote(name, ext='md'):
     notesDir = os.path.expanduser('~/Desktop/Notes')
-    name = name + '.md'
+    ext = fileWithExtension(ext)
+    if ext == None:
+        print('[-] Invalid file extension')
+        return
+    name = name + ext
     filePath, searchedNotes = findFile(name, notesDir)
     if filePath != False:
         print('[+] The notes already exist, opening ' + name)
@@ -44,8 +56,14 @@ def findFile(name, startDir):
         return newDir, newDir
     return found, foundPaths
     
-def fileWithExtension(name, ext):
-    name = name + ext
+def fileWithExtension(ext):
+    ext = ext.lower()
+    if ext not in fileExtMapping.keys():
+        print('[-] invalid file type')
+        return
+    else:
+        return fileExtMapping[ext]
+
 
 def main():
     if len(sys.argv) == 1:
@@ -59,11 +77,10 @@ def main():
         print('nfe')
         return
     elif inputs[0] == 'ne':
-        print('ne')
+        simpleNote(inputs[1], inputs[2])
         return
     elif inputs[0] == 'n':
-        print('n')
-        simple_note(inputs[1])
+        simpleNote(inputs[1])
         return
     else:
         print('Please enter a valid input, for help see the documentation')
