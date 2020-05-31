@@ -73,6 +73,28 @@ def fileWithExtension(ext):
         return fileExtMapping[ext]
 
 
+def folderNotes(name, folder, ext):
+    notesDir = os.path.expanduser('~/Desktop/Notes')
+    findFolder(folder, notesDir)
+
+
+def findFolder(folderName, startDir):
+    folders = os.listdir(startDir)
+    folderPath = False
+    for folder in folders:
+        if folder == folderName:
+            folderPath = startDir + '/' + folder
+            break
+        else:
+            pass
+    if not folderPath:
+        folderPath = startDir + '/' + folderName
+        os.makedirs(folderPath)
+    os.chdir(folderPath)
+    print(os.getcwd())
+
+
+
 def main():
     if len(sys.argv) == 1:
         print("[-] No inputs supplied, for help see -h for documentation")
@@ -82,7 +104,7 @@ def main():
         print('[-] Please use a valid input, for help see the documentation')
         return
     if inputs[0] == 'nfe':
-        print('nfe')
+        folderNotes(inputs[1], inputs[2], inputs[3])
         return
     elif inputs[0] == 'ne':
         simpleNote(inputs[1], inputs[2])
