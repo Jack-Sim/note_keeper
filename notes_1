@@ -30,7 +30,6 @@ def simpleNote(name, ext='md'):
     filePath, searchedNotes = findFile(name, notesDir)
     if filePath:
         print('[+] The notes already exist, opening ' + name)
-        print(filePath)
         os.system('vim ' + filePath)
     else:
         os.chdir(notesDir + '/General_Notes')
@@ -54,7 +53,6 @@ def findFile(name, startDir):
 
     while len(toEval) > 0 and not found:
         newDir = startDir + '/' + toEval[0]
-        print(newDir)
         toEval.pop(0)
         found, foundPaths[startDir][newDir] = findFile(name, newDir)
     if found:
@@ -75,25 +73,20 @@ def fileWithExtension(ext):
 
 def folderNotes(name, folder, ext):
     ext = fileWithExtension(ext)
-    
     if ext is None:
         print('[-] Invalid file extension')
         return
     fileName = name + ext
-
     notesDir = os.path.expanduser('~/Desktop/Notes')
     findFolder(folder, notesDir)
-    
     filePath, searchedIndexes = findFile(fileName, os.getcwd())
-    print(filePath)
     if filePath:
         print(f'[+] File {fileName} exists, opening file')
         os.system('vim ' + filePath)
     else:
         print(f'[+] File does not exist, \n'
-            f'creating {fileName} in {os.getcwd()}')
+              f'creating {fileName} in {os.getcwd()}')
         os.system('vim ' + fileName)
-        
 
 
 def findFolder(folderName, startDir):
@@ -111,7 +104,6 @@ def findFolder(folderName, startDir):
         os.makedirs(folderPath)
     os.chdir(folderPath)
     print(os.getcwd())
-
 
 
 def main():
