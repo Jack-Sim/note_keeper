@@ -74,13 +74,32 @@ def fileWithExtension(ext):
 
 
 def folderNotes(name, folder, ext):
+    ext = fileWithExtension(ext)
+    
+    if ext is None:
+        print('[-] Invalid file extension')
+        return
+    fileName = name + ext
+
     notesDir = os.path.expanduser('~/Desktop/Notes')
     findFolder(folder, notesDir)
+    
+    filePath, searchedIndexes = findFile(fileName, os.getcwd())
+    print(filePath)
+    if filePath:
+        print(f'[+] File {fileName} exists, opening file')
+        os.system('vim ' + filePath)
+    else:
+        print(f'[+] File does not exist, \n'
+            f'creating {fileName} in {os.getcwd()}')
+        os.system('vim ' + fileName)
+        
 
 
 def findFolder(folderName, startDir):
     folders = os.listdir(startDir)
     folderPath = False
+
     for folder in folders:
         if folder == folderName:
             folderPath = startDir + '/' + folder
