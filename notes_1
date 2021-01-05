@@ -19,9 +19,17 @@ fileExtMapping = {
         'txt': TEXT, '.txt': TEXT, 'text': TEXT, '.text': TEXT
         }
 
+def setup_wd():
+    try:
+        return os.path.expanduser('~/Desktop/Notes')
+    except:
+        start_dir = os.path.expanduser('~/Desktop')
+        os.makedirs(start_dir + '/Notes')
+        return os.path.expanduser('~/Desktop/Notes')
+
 
 def simpleNote(name, ext='md'):
-    notesDir = os.path.expanduser('~/Desktop/Notes')
+    notesDir = setup_wd()
     ext = fileWithExtension(ext)
     if ext is None:
         print('[-] Invalid file extension')
@@ -32,7 +40,11 @@ def simpleNote(name, ext='md'):
         print('[+] The notes already exist, opening ' + name)
         os.system('vim ' + filePath)
     else:
-        os.chdir(notesDir + '/General_Notes')
+        try:
+            os.chdir(notesDir + '/General_Notes')
+        except:
+            os.makedirs(notesDir + '/General_Notes')
+            os.chdir(notesDir + '/General_Notes')
         fileNew = open(name, 'w')
         fileNew.close()
         print('[+] New notes file: ' + name + ' created')
@@ -77,7 +89,7 @@ def folderNotes(name, folder, ext):
         print('[-] Invalid file extension')
         return
     fileName = name + ext
-    notesDir = os.path.expanduser('~/Desktop/Notes')
+    notesDir = setup_wd()
     findFolder(folder, notesDir)
     filePath, searchedIndexes = findFile(fileName, os.getcwd())
     if filePath:

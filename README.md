@@ -10,6 +10,7 @@ This repository is for the development of a command line application to automate
 - [x] Open the note in a text editor (default is vim)
 
 ### Additional Features:
-- [ ] An initial setup to create the overall notes folder if it does not exist
+- [x] Create a help menu with usage instructions
+- [x] An initial setup to create the overall notes folder if it does not exist
 - [ ] Display all notes and subfolders in the main Notes folder
 - [ ] Change the text editor from default to user specified editor
