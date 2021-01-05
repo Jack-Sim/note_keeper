@@ -5,8 +5,8 @@ This repository is for the development of a command line application to automate
 ### The tool will have the ability to:
 - [x] Search notes folders for an existing note
 - [x] Create new markdown notes in a general notes folder
-- [ ] Create notes with other file type (.txt, .html, .md, etc)
-- [ ] Store notes in a specfied folder, creating a new folder if required
+- [x] Create notes with other file type (.txt, .html, .md, etc)
+- [x] Store notes in a specfied folder, creating a new folder if required
 - [x] Open the note in a text editor (default is vim)
 
 ### Additional Features:

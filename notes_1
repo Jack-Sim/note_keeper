@@ -105,16 +105,36 @@ def findFolder(folderName, startDir):
     os.chdir(folderPath)
     print(os.getcwd())
 
+def help_options():
+    print(""" 
+                 ---------------------Note Creater-------------------
+             [-] This is a tool to create notes in a default location
+                 on your computer.
+             [-] The tool allows you to create: 
+             [-]    simple note as a markdown file
+             [-]    a note with a different extension
+             [-]    a note in a specified folder with an extension
+             [-] -----------------------------------------------------
+             [-] Usage instructions:
+             [-]    notes_creator n filename
+             [-]    notes_creator ne filename extension
+             [-]    notes_creator nfe filename folder extension
+             [-]    notes_creator -h
+            """)
+
 
 def main():
     if len(sys.argv) == 1:
         print("[-] No inputs supplied, for help see -h for documentation")
         return
     inputs = sys.argv[1:]
-    if inputs[0] not in ['nfe', 'ne', 'n']:
+    if inputs[0] not in ['nfe', 'ne', 'n', '-h']:
         print('[-] Please use a valid input, for help see the documentation')
         return
-    if inputs[0] == 'nfe':
+    if inputs[0] == '-h':
+        help_options()
+        return
+    elif inputs[0] == 'nfe':
         folderNotes(inputs[1], inputs[2], inputs[3])
         return
     elif inputs[0] == 'ne':
