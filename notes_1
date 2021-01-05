@@ -28,7 +28,7 @@ def setup_wd():
         return os.path.expanduser('~/Desktop/Notes')
 
 
-def simpleNote(name, ext='md'):
+def simpleNote(name, ext='md', editor = "vim"):
     notesDir = setup_wd()
     ext = fileWithExtension(ext)
     if ext is None:
@@ -38,7 +38,7 @@ def simpleNote(name, ext='md'):
     filePath, searchedNotes = findFile(name, notesDir)
     if filePath:
         print('[+] The notes already exist, opening ' + name)
-        os.system('vim ' + filePath)
+        os.system(editor + ' ' + filePath)
     else:
         try:
             os.chdir(notesDir + '/General_Notes')
@@ -48,7 +48,7 @@ def simpleNote(name, ext='md'):
         fileNew = open(name, 'w')
         fileNew.close()
         print('[+] New notes file: ' + name + ' created')
-        os.system('vim ' + name)
+        os.system(editor +' ' + name)
 
 
 def findFile(name, startDir):
@@ -83,7 +83,7 @@ def fileWithExtension(ext):
         return fileExtMapping[ext]
 
 
-def folderNotes(name, folder, ext):
+def folderNotes(name, folder, ext, editor="vim"):
     ext = fileWithExtension(ext)
     if ext is None:
         print('[-] Invalid file extension')
@@ -98,7 +98,7 @@ def folderNotes(name, folder, ext):
     else:
         print(f'[+] File does not exist, \n'
               f'creating {fileName} in {os.getcwd()}')
-        os.system('vim ' + fileName)
+        os.system(editor + ' ' + fileName)
 
 
 def findFolder(folderName, startDir):
@@ -140,6 +140,12 @@ def main():
         print("[-] No inputs supplied, for help see -h for documentation")
         return
     inputs = sys.argv[1:]
+    
+    if inputs[-2] == '-e':
+        editor = inputs[-1]
+    else:
+        editor = 'vim'
+
     if inputs[0] not in ['nfe', 'ne', 'n', '-h']:
         print('[-] Please use a valid input, for help see the documentation')
         return
@@ -147,13 +153,13 @@ def main():
         help_options()
         return
     elif inputs[0] == 'nfe':
-        folderNotes(inputs[1], inputs[2], inputs[3])
+        folderNotes(inputs[1], inputs[2], inputs[3], editor)
         return
     elif inputs[0] == 'ne':
-        simpleNote(inputs[1], inputs[2])
+        simpleNote(inputs[1], inputs[2], editor)
         return
     elif inputs[0] == 'n':
-        simpleNote(inputs[1])
+        simpleNote(inputs[1], editor)
         return
     else:
         print('[-] Please enter a valid input, for help see the documentation')
